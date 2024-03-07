@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    
+    - name: Install Neofetch
+      apt:
+        name: neofetch
+
+    - name: Add env variables
+      shell: "export neofetch >> /.bashrc"
+
