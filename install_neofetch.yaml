@@ -7,6 +7,3 @@
       apt:
         name: neofetch
 
-    - name: Add env variables
-      shell: "export neofetch >> /.bashrc"
-
