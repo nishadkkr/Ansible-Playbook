@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Docker
+      apt:
+        name:
+          - docker.io
+        update_cache: yes
+
+    - name: Update User Permissions
+      shell: "usermod -aG docker {{ lookup('env', 'USER') }}" 
+      shell: "chmod 666 /var/run/docker.sock" 

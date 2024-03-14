@@ -1,0 +1,6 @@
+[defaults]
+62.72.31.218
+
+[all:vars]
+ansible_connection=ssh
+ansible_user=khadi-admin
