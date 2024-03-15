@@ -1,5 +1,5 @@
 ---
-- hosts: worker-two
+- hosts: all
   become: yes
   tasks:
 

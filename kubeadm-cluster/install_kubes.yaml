@@ -1,13 +1,29 @@
 ---
-- hosts: worker-two
+- hosts: all 
   become: yes
   tasks:
+    - name: Install kubelet, kubectl, and kubeadm on all nodes
+      block:
+        - name: Download Kubernetes repository key
+          shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/kubernetes-apt-keyring.gpg
+          ignore_errors: yes
 
-    - name: Install kubelet, kubectl and kubeadm on all nodes
-      shell: |
-        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-        echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-        
-    - name: Update cache
+        - name: Add Kubernetes repository
+          lineinfile:
+            dest: /etc/apt/sources.list.d/kubernetes.list
+            line: "deb [signed-by=/etc/apt/trusted.gpg.d/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /"
+            create: yes
+
+      become: yes
+
+    - name: Update apt cache
       apt:
-        update_cache: yes 
+        update_cache: yes
+
+    - name: Install kubelet kubeaadm and kubectl
+      apt:
+        name:
+          - kubelet=1.28.2-00
+          - kubectl=1.28.2-00
+          - kubeadm=1.28.2-00
+        state: present
