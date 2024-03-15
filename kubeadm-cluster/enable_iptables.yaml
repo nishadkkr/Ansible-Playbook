@@ -1,0 +1,13 @@
+---
+- hosts: worker-two
+  become: yes
+  tasks:
+
+    - name: Configure Kernel Modules for Kubernetes
+      shell: |
+        echo overlay | tee /etc/modules-load.d/k8s.conf
+        echo br_netfilter | tee -a /etc/modules-load.d/k8s.conf
+        modprobe overlay
+        modprobe br_netfilter
+
+    

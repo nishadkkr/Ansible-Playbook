@@ -1,0 +1,7 @@
+---
+- hosts: worker-two
+  become: yes
+  tasks:
+  
+    - name: Disbale swap space
+      shell: swapoff -a

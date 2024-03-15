@@ -1,5 +1,5 @@
 ---
-- hosts: workers
+- hosts: worker-two
   become: yes
   tasks:
     - name: Update all packages
